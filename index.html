@@ -17,8 +17,9 @@
             text-align: center;
             opacity: 0;
             transition: opacity 2s;
+            max-width: 80%;
         }
-        .blurred {
+        .blurred canvas {
             filter: blur(10px);
             transition: filter 2s;
         }
@@ -66,14 +67,25 @@
     // Add nebula definition
     const nebulaDefinition = document.createElement('div');
     nebulaDefinition.className = 'nebula-definition';
-    nebulaDefinition.innerText = 'A nebula is a giant cloud of dust and gas in space.';
+    nebulaDefinition.innerHTML = `
+        <strong>Nebula:</strong> A nebula is a vast cloud of gas and dust in space, often serving as a nursery for new stars. 
+        Nebulae can be the remnants of dead or dying stars, or regions where new stars are forming. 
+        They come in various shapes and sizes, and their colors are often determined by the types of gases they contain.
+    `;
     document.body.appendChild(nebulaDefinition);
 
     // Handle key press
+    let isBlurred = false;
     window.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight') {
-            document.body.classList.add('blurred');
-            nebulaDefinition.style.opacity = 1;
+            isBlurred = !isBlurred;
+            if (isBlurred) {
+                document.body.classList.add('blurred');
+                nebulaDefinition.style.opacity = 1;
+            } else {
+                document.body.classList.remove('blurred');
+                nebulaDefinition.style.opacity = 0;
+            }
         }
     });
 </script>
