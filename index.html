@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Rotating Sphere with Nebula Definition</title>
+    <title>3D Rotating Sphere with Nebula Definition and Supernova</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -50,9 +50,40 @@
     camera.position.set(0, 0, 0.1);
 
     // Animation loop
+    let isBlurred = false;
+    let isReversing = false;
+    let isShrinking = false;
+    let isSupernova = false;
+    let isSun = false;
+    let scale = 1;
+    let rotationSpeed = 0.001;
+
     function animate() {
         requestAnimationFrame(animate);
-        sphere.rotation.y += 0.001; // Adjust rotation speed
+        if (!isReversing) {
+            sphere.rotation.y += rotationSpeed; // Adjust rotation speed
+        } else {
+            sphere.rotation.y -= rotationSpeed; // Reverse rotation
+        }
+        if (isShrinking) {
+            scale -= 0.005;
+            if (scale <= 0.1) {
+                isShrinking = false;
+                isSupernova = true;
+                scale = 1;
+            }
+        }
+        if (isSupernova) {
+            // Supernova effect (simple scaling for demonstration)
+            scale += 0.05;
+            if (scale >= 5) {
+                isSupernova = false;
+                isSun = true;
+                scale = 1;
+                material.map = new THREE.TextureLoader().load('sun-texture.jpg'); // Load sun texture
+            }
+        }
+        sphere.scale.set(scale, scale, scale);
         renderer.render(scene, camera);
     }
     animate();
@@ -75,16 +106,27 @@
     document.body.appendChild(nebulaDefinition);
 
     // Handle key press
-    let isBlurred = false;
+    let step = 0;
     window.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight') {
-            isBlurred = !isBlurred;
-            if (isBlurred) {
+            step++;
+            if (step === 1) {
                 document.body.classList.add('blurred');
                 nebulaDefinition.style.opacity = 1;
-            } else {
+            } else if (step === 2) {
                 document.body.classList.remove('blurred');
                 nebulaDefinition.style.opacity = 0;
+                isReversing = true;
+                isShrinking = true;
+            } else if (step === 3) {
+                // Reset everything after the sequence
+                isReversing = false;
+                isShrinking = false;
+                isSupernova = false;
+                isSun = false;
+                scale = 1;
+                material.map = new THREE.TextureLoader().load('high-res-nebula.jpg');
+                step = 0; // Reset step counter
             }
         }
     });
