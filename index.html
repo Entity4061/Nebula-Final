@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="three.js"></script>
 <script>
     // Scene setup
     const scene = new THREE.Scene();
@@ -21,7 +21,7 @@
 
     // Sphere geometry
     const geometry = new THREE.SphereGeometry(500, 60, 40);
-    const texture = new THREE.TextureLoader().load('https://img.freepik.com/free-photo/galaxy-wallpaper-warm-colors_23-2151769487.jpg?t=st=1727865438~exp=1727869038~hmac=f194125c60c06a30adb429f68ec3bccbe7318f97ea0d91aaf07a6f0d8cdf956e&w=1380');
+    const texture = new THREE.TextureLoader().load('galaxy-wallpaper-warm-colors.jpg');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(2, 1); // Adjust to make the texture seamless
