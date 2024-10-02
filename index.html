@@ -83,6 +83,13 @@
                 material.map = new THREE.TextureLoader().load('sun-texture.jpg'); // Load sun texture
             }
         }
+        if (isSun) {
+            scale -= 0.01;
+            if (scale <= 1) {
+                isSun = false;
+                scale = 1;
+            }
+        }
         sphere.scale.set(scale, scale, scale);
         renderer.render(scene, camera);
     }
