@@ -3,10 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Rotating Sphere</title>
+    <title>3D Rotating Sphere with Nebula Definition</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
+        .nebula-definition {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        .blurred {
+            filter: blur(10px);
+            transition: filter 2s;
+        }
     </style>
 </head>
 <body>
@@ -15,12 +30,13 @@
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
     document.body.appendChild(renderer.domElement);
 
     // Sphere geometry
-    const geometry = new THREE.SphereGeometry(500, 60, 40);
+    const geometry = new THREE.SphereGeometry(500, 128, 128); // Increased detail
     const texture = new THREE.TextureLoader().load('galaxy-wallpaper-warm-colors.jpg');
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
@@ -45,6 +61,20 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // Add nebula definition
+    const nebulaDefinition = document.createElement('div');
+    nebulaDefinition.className = 'nebula-definition';
+    nebulaDefinition.innerText = 'A nebula is a giant cloud of dust and gas in space.';
+    document.body.appendChild(nebulaDefinition);
+
+    // Handle key press
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight') {
+            document.body.classList.add('blurred');
+            nebulaDefinition.style.opacity = 1;
+        }
     });
 </script>
 </body>
