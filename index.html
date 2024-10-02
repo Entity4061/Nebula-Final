@@ -56,7 +56,7 @@
     let isSupernova = false;
     let isRedGiant = false;
     let scale = 1;
-    let rotationSpeed = 0.001;
+    let rotationSpeed = 0.0001;
 
     function animate() {
         requestAnimationFrame(animate);
@@ -80,7 +80,7 @@
                 isSupernova = false;
                 isRedGiant = true;
                 scale = 5;
-                material.map = new THREE.TextureLoader().load('sun-texture.jpg'); // Load red giant texture
+                material.map = new THREE.TextureLoader().load('red-giant-texture.jpg'); // Load red giant texture
                 camera.position.set(0, 0, 1000); // Move camera outside the red giant
             }
         }
@@ -139,6 +139,14 @@
             }
         }
     });
+
+    // Add subtle camera movement for parallax effect
+    function updateCamera() {
+        camera.position.x = Math.sin(Date.now() * 0.001) * 0.5;
+        camera.position.y = Math.cos(Date.now() * 0.001) * 0.5;
+        camera.lookAt(scene.position);
+    }
+    setInterval(updateCamera, 16); // Update camera position every 16ms for smooth movement
 </script>
 </body>
 </html>
