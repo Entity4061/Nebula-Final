@@ -54,7 +54,7 @@
     let isReversing = false;
     let isShrinking = false;
     let isSupernova = false;
-    let isSun = false;
+    let isRedGiant = false;
     let scale = 1;
     let rotationSpeed = 0.001;
 
@@ -78,16 +78,17 @@
             scale += 0.05;
             if (scale >= 5) {
                 isSupernova = false;
-                isSun = true;
-                scale = 1;
-                material.map = new THREE.TextureLoader().load('sun-texture.jpg'); // Load sun texture
+                isRedGiant = true;
+                scale = 5;
+                material.map = new THREE.TextureLoader().load('sun-texture.jpg'); // Load red giant texture
+                camera.position.set(0, 0, 1000); // Move camera outside the red giant
             }
         }
-        if (isSun) {
+        if (isRedGiant) {
             scale -= 0.01;
-            if (scale <= 1) {
-                isSun = false;
-                scale = 1;
+            if (scale <= 2) {
+                isRedGiant = false;
+                scale = 2; // Final size of the red giant
             }
         }
         sphere.scale.set(scale, scale, scale);
@@ -130,9 +131,10 @@
                 isReversing = false;
                 isShrinking = false;
                 isSupernova = false;
-                isSun = false;
+                isRedGiant = false;
                 scale = 1;
                 material.map = new THREE.TextureLoader().load('high-res-nebula.jpg');
+                camera.position.set(0, 0, 0.1); // Reset camera position
                 step = 0; // Reset step counter
             }
         }
