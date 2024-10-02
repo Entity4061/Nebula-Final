@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotating Sphere</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+        }
+        .sphere {
+            width: 500px;
+            height: 500px;
+            background: url('https://img.freepik.com/free-photo/galaxy-wallpaper-warm-colors_23-2151769487.jpg?t=st=1727865438~exp=1727869038~hmac=f194125c60c06a30adb429f68ec3bccbe7318f97ea0d91aaf07a6f0d8cdf956e&w=1380');
+            background-size: cover;
+            border-radius: 50%;
+            animation: rotate 20s infinite linear;
+        }
+        @keyframes rotate {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sphere"></div>
+</body>
+</html>
