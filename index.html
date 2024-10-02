@@ -3,36 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rotating Sphere</title>
+    <title>3D Rotating Sphere</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: black;
-        }
-        .sphere {
-            width: 500px;
-            height: 500px;
-            background: url('https://img.freepik.com/free-photo/galaxy-wallpaper-warm-colors_23-2151769487.jpg?t=st=1727865438~exp=1727869038~hmac=f194125c60c06a30adb429f68ec3bccbe7318f97ea0d91aaf07a6f0d8cdf956e&w=1380');
-            background-size: cover;
-            border-radius: 50%;
-            animation: rotate 20s infinite linear;
-        }
-        @keyframes rotate {
-            from {
-                transform: rotateY(0deg);
-            }
-            to {
-                transform: rotateY(360deg);
-            }
-        }
+        body { margin: 0; }
+        canvas { display: block; }
     </style>
 </head>
 <body>
-    <div class="sphere"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // Scene setup
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Sphere geometry
+    const geometry = new THREE.SphereGeometry(500, 60, 40);
+    const texture = new THREE.TextureLoader().load('https://img.freepik.com/free-photo/galaxy-wallpaper-warm-colors_23-2151769487.jpg?t=st=1727865438~exp=1727869038~hmac=f194125c60c06a30adb429f68ec3bccbe7318f97ea0d91aaf07a6f0d8cdf956e&w=1380');
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2, 1); // Adjust to make the texture seamless
+    const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.BackSide });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    // Camera position
+    camera.position.set(0, 0, 0.1);
+
+    // Animation loop
+    function animate() {
+        requestAnimationFrame(animate);
+        sphere.rotation.y += 0.001; // Adjust rotation speed
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
 </body>
 </html>
